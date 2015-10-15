@@ -12,6 +12,9 @@
 
 
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n rooks placed such that none of them can attack each other
+// array of arrays = array with equal length with each bucket having equal length
+// find rooks = similar to rock paper scissor with conditionals of rows and collumns (using the functions from board.js)
+// find queens = similar but with conditionals of rows and collumns and diagonals 
 
 window.findNRooksSolution = function(n) {
   var solution = undefined; //fixme
