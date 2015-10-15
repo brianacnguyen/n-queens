@@ -203,7 +203,6 @@
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
       var totalRows = this.rows();
-      var firstRow = totalRows[0];
       var result = false; 
       for (var i = 0; i < totalRows.length; i++) {
         if ((this.hasMajorDiagonalConflictAt(i, 0)) || (this.hasMajorDiagonalConflictAt(0, i))) {
@@ -215,19 +214,51 @@
       return result; // fixme
     },
 
-
+ // row    0  1  2  3   col
+ //    0     [0, 0, 0, 0],
+ //    1     [0, 0, 0, 0],
+ //    2     [1, 0, 0, 0],
+ //    3     [0, 1, 0, 0]
 
     // Minor Diagonals - go from top-right to bottom-left
     // --------------------------------------------------------------
     //
     // test if a specific minor diagonal on this board contains a conflict
-    hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+    hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndex, minorDiagonalRowIndex) {
+      
+      minorDiagonalRowIndex = minorDiagonalRowIndex || 0;
+      // (minorDiagonalRowIndex === undefined) ? 0 : minorDiagonalRowIndex;
+      var totalRows = this.rows();
+      var count = 0;
+      var result = false;
+      var check = function(c,r) {
+        if (r === totalRows.length || c === -1) {
+          return result;
+        }
+        if (totalRows[r][c] === 1) {
+          count++;
+          if(count === 2) {
+            result = true;
+          }
+        }
+        check(c - 1 , r + 1); 
+      }
+      check(minorDiagonalColumnIndex, minorDiagonalRowIndex);
+      return result;
     },
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
-      return false; // fixme
+      var totalRows = this.rows();
+      var result = false; 
+      for (var i = (totalRows.length - 1); i >= 0; i--) {
+        if ((this.hasMinorDiagonalConflictAt(i, 0)) || (this.hasMinorDiagonalConflictAt((totalRows.length - 1), i))) {
+          result = true;
+        }
+      }
+        //run hasMDCAt on all elements in first row.
+        //run hasMDCAT on the 0 column on all the other rows.
+      return result;
     }
 
     /*--------------------  End of Helper Functions  ---------------------*/
