@@ -91,25 +91,37 @@
       var count = 0;
       var row = this.get(rowIndex);
       for (var i = 0; i < row.length; i++) {
-        count += row[i];
+        if (row[i] === 1) {
+          count ++;
+        }
       }
       return (count > 1);
     },
 
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
-      var size = this.get('n');
+      //declare a truthy variable
+      var totalRows = this.rows();
+      var result = false;
       //access all rows via rows function, store
       //loop over each array in rows
         //call hasrowconflict at on each array
           //if it returns true
-      for (var i = 0; i < size; i ++) {
+      for (var i = 0; i < totalRows.length; i ++) {
         if (this.hasRowConflictAt(i)) {
-          return true;
+          result = true;
         }
       }
 
-      return false;
+      // _.each(totalRows, function(row){
+      //   if (this.hasRowConflictAt(index)){
+      //     result = true;
+      //   }
+      // })
+
+      return result;
+      // return _.some(totalRows, function() {
+      //   this.hasRowConflictAt});
     },
 
     // COLUMNS - run from top to bottom
